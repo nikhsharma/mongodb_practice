@@ -17,6 +17,15 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
   const db = client.db("mongo_practice");
   console.log('Connected to database');
 
+  app.post('/api/stuff/:id', function(req, res, next) {
+    const collectionOfStuff = db.collection('stuff');
+    const objectID = ObjectID(req.params.id);
+    collectionOfStuff.update({_id: objectID}, req.body, function(err, result) {
+      if (err) next(err);
+      res.status(201).send();
+    })
+  })
+
   app.post('/api/stuff', function(req, res, next) {
     const collectionOfStuff = db.collection('stuff');
     const newThing = req.body;
