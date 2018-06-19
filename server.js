@@ -28,6 +28,14 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
     })
   });
 
+  app.get('/api/stuff', function(req, res, next) {
+    const collectionOfStuff = db.collection('stuff');
+    collectionOfStuff.find().toArray(function(err, allThings) {
+      if (err) next(err);
+      res.json(allThings);
+    })
+  });
+
   app.listen(3000, function(){
     console.log("Listening on port 3000");
   });
