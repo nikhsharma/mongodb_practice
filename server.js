@@ -37,6 +37,14 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
     })
   });
 
+  app.delete('/api/stuff', function(req, res, next) {
+    const collectionOfStuff = db.collection('stuff');
+    collectionOfStuff.remove({}, function(err, result) {
+      if(err) next(err);
+      res.status(200).send();
+    })
+  })
+
   app.get('/api/stuff', function(req, res, next) {
     const collectionOfStuff = db.collection('stuff');
     collectionOfStuff.find().toArray(function(err, allThings) {
